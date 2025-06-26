@@ -15,6 +15,7 @@ function App() {
           <a
             href="https://github.com/25Mishka/Weather-react-app-upgraded"
             target="_blank"
+            rel="noreferrer"
           >
             open-sourced on GitHub
           </a>
