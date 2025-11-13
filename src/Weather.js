@@ -7,14 +7,16 @@ export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
   const [city, setCity] = useState(props.defaultCity);
   function handleResponse(response) {
+    
+
     setWeatherData({
       ready: true,
       temperature: response.data.temperature.current,
       humidity: response.data.temperature.humidity,
       date: new Date(response.data.time * 1000),
       description: response.data.condition.description,
-      iconUrl:
-        "https://shecodes-assets.s3.amazonaws.com/api/weather/icons/shower-rain-night.png",
+
+      icon: response.data.condition.icon,
       wind: response.data.wind.speed,
       city: response.data.city,
     });
