@@ -3,12 +3,14 @@ import WeatherIcon from "./WeatherIcon";
 import "./WeatherForecast.css";
 import Axios from "axios";
 
-export default function WeatherForcast() {
+export default function WeatherForcast(props) {
   function handleResponse(response) {
     console.log(response.data);
   }
-  let longitude = 40.7;
-  let latitude = 74;
+  console.log(props);
+
+  let longitude = props.coordinates.long;
+  let latitude = props.coordinates.lat;
   let apiKey = "6a48a550fc04f170639e60d52b8a6bc5";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
