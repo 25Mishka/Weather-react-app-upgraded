@@ -3,7 +3,7 @@ import WeatherIcon from "./WeatherIcon";
 import "./WeatherForecast.css";
 import Axios from "axios";
 
-export default function WeatherForcast(props) {
+export default function WeatherForecast(props) {
   function handleResponse(response) {
     console.log(response.data);
   }
