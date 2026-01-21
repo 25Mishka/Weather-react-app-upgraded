@@ -19,7 +19,7 @@ export default function WeatherForcast(props) {
       <div className="row">
         <div className="col">
           <div className="WeatherForecast-day"> Thu</div>
-          <WeatherInfo code="broken-clouds-day" size={36} />
+          <WeatherIcon code="broken-clouds-day" size={36} />
 
           <div className="WeatherForecast-temperature">
             <span className="WeatherForecast-temperature-max">19</span>
