@@ -1,23 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WeatherIcon from "./WeatherIcon";
 import "./WeatherForecast.css";
 import Axios from "axios";
 
 export default function WeatherForecast(props) {
-  let [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [forecast, setForecast] = useState(null);
+
+  useEffect(() => {
+    setLoaded(false);
+  }, [props.coordinates]);  
+ // if coordinates change, reset loaded to false to fetch new data
+ 
+
   function handleResponse(response) {
-    console.log(response.data);
+    setForecast(response.data.daily);
+    setLoaded(true);
+   
   }
 
-  if (loaded) {
+  function loadForecast(loaded) {
+    
     let apiKey = "6a48a550fc04f170639e60d52b8a6bc5";
     let longitude = props.coordinates.long;
     let latitude = props.coordinates.lat;
+    
 
     let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
-    axios.get(apiUrl).then(handleResponse);
-  } else {
+    Axios.get(apiUrl).then(handleResponse);
+
+  if (loaded) {
     return (
       <div className="WeatherForecast">
         <div className="row">
@@ -33,5 +46,10 @@ export default function WeatherForecast(props) {
         </div>
       </div>
     );
+  } else {
+    funcation(loaded);
+    return null;
+  }
   }
 }
+
