@@ -1,55 +1,43 @@
 import React, { useEffect, useState } from "react";
 import WeatherIcon from "./WeatherIcon";
 import "./WeatherForecast.css";
-import Axios from "axios";
+import axios from "axios";
+import WeatherForecastDay from "./WeatherForecastDay";
 
 export default function WeatherForecast(props) {
   const [loaded, setLoaded] = useState(false);
   const [forecast, setForecast] = useState(null);
 
   useEffect(() => {
+    if (!props.coordinates) return;
+
     setLoaded(false);
-  }, [props.coordinates]);  
- // if coordinates change, reset loaded to false to fetch new data
- 
 
-  function handleResponse(response) {
-    setForecast(response.data.daily);
-    setLoaded(true);
-   
+    const apiKey = "6a48a550fc04f170639e60d52b8a6bc5";
+    const latitude = props.coordinates.lat;
+    const longitude = props.coordinates.long;
+
+    const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+    axios.get(apiUrl).then((response) => {
+      setForecast(response.data.daily);
+      setLoaded(true);
+    });
+  }, [props.coordinates]);
+
+  if (!loaded) {
+    return null; // or "Loading forecast..."
   }
 
-  function loadForecast(loaded) {
-    
-    let apiKey = "6a48a550fc04f170639e60d52b8a6bc5";
-    let longitude = props.coordinates.long;
-    let latitude = props.coordinates.lat;
-    
-
-    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-
-    Axios.get(apiUrl).then(handleResponse);
-
-  if (loaded) {
-    return (
-      <div className="WeatherForecast">
-        <div className="row">
-          <div className="col">
-            <div className="WeatherForecast-day"> Thu</div>
-            <WeatherIcon code="broken-clouds-day" size={36} />
-
-            <div className="WeatherForecast-temperature">
-              <span className="WeatherForecast-temperature-max">19</span>
-              <span className="WeatherForecast-temperature-min">10</span>
-            </div>
+  return (
+    <div className="WeatherForecast">
+      <div className="row">
+        {forecast.slice(0, 5).map((day, index) => (
+          <div className="col" key={index}>
+            <WeatherForecastDay forecast={day} />
           </div>
-        </div>
+        ))}
       </div>
-    );
-  } else {
-    funcation(loaded);
-    return null;
-  }
-  }
+    </div>
+  );
 }
-
